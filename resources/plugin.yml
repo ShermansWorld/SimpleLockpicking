@@ -1,0 +1,10 @@
+name: SimpleLockpicking
+main: me.ShermansWorld.SimpleLockpicking.Main
+version: 2.0
+api-version: 1.18
+author: ShermansWorld
+description: SimpleLockpicking
+softdepend: [Towny, CraftBook]
+commands:
+  simplelockpicking:
+    description: Admin utility commands
