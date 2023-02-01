@@ -3,7 +3,7 @@
 # | A simple plugin for your lockpicking needs |
 # ==============================================
 
-config-version: 4
+config-version: 5
 
 lang: "enUs"
 # Possible languages: English (enUS)
@@ -22,6 +22,7 @@ Lockpicks:
 Chances:
   Iron: 10
   Chests: 5
+  Shulkers: 5
   Wood: 5
 
 # Remove the '#' from anything you want to prevent getting lockpicked  
