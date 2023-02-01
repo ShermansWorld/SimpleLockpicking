@@ -125,7 +125,7 @@ public class CraftBookCompatibility {
 		return null;
 	}
 
-	public static void toggleGate(Player player, Block gateSign) {
+	public static void toggleGate(final Player player, final Block gateSign) {
 		player.getInventory().clear(player.getInventory().getHeldItemSlot());
 		new BukkitRunnable() {
 			@Override

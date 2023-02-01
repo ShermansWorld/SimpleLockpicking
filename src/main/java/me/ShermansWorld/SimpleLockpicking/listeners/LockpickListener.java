@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -15,6 +16,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.ShulkerBox;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Gate;
 import org.bukkit.block.data.type.TrapDoor;
@@ -37,12 +39,13 @@ import me.ShermansWorld.SimpleLockpicking.lang.Languages;
 public class LockpickListener implements Listener {
 
 	public static YamlConfiguration lang = Languages.getLang();
+
 	private static String mess(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 
 	PluginManager pm = Main.getInstance().getServer().getPluginManager();
-	
+
 	private static boolean chestsAllowed = true;
 	private static boolean trappedChestsAllowed = true;
 	private static Random random = new Random();
@@ -119,6 +122,28 @@ public class LockpickListener implements Listener {
 
 	static {
 		iron_door.add(Material.IRON_DOOR);
+	}
+
+	private static final Set<Material> shulkers = new HashSet<>();
+
+	static {
+		shulkers.add(Material.SHULKER_BOX);
+		shulkers.add(Material.BLACK_SHULKER_BOX);
+		shulkers.add(Material.BLUE_SHULKER_BOX);
+		shulkers.add(Material.BROWN_SHULKER_BOX);
+		shulkers.add(Material.CYAN_SHULKER_BOX);
+		shulkers.add(Material.GRAY_SHULKER_BOX);
+		shulkers.add(Material.GREEN_SHULKER_BOX);
+		shulkers.add(Material.LIGHT_BLUE_SHULKER_BOX);
+		shulkers.add(Material.LIGHT_GRAY_SHULKER_BOX);
+		shulkers.add(Material.LIME_SHULKER_BOX);
+		shulkers.add(Material.MAGENTA_SHULKER_BOX);
+		shulkers.add(Material.ORANGE_SHULKER_BOX);
+		shulkers.add(Material.PINK_SHULKER_BOX);
+		shulkers.add(Material.PURPLE_SHULKER_BOX);
+		shulkers.add(Material.RED_SHULKER_BOX);
+		shulkers.add(Material.WHITE_SHULKER_BOX);
+		shulkers.add(Material.YELLOW_SHULKER_BOX);
 	}
 
 	public static void removeDisabled() {
@@ -209,6 +234,40 @@ public class LockpickListener implements Listener {
 			case "CHEST":
 				chestsAllowed = false;
 				break;
+			case "SHULKER_BOX":
+				shulkers.remove(Material.SHULKER_BOX);
+			case "BLACK_SHULKER_BOX":
+				shulkers.remove(Material.BLACK_SHULKER_BOX);
+			case "BLUE_SHULKER_BOX":
+				shulkers.remove(Material.BLUE_SHULKER_BOX);
+			case "BROWN_SHULKER_BOX":
+				shulkers.remove(Material.BROWN_SHULKER_BOX);
+			case "CYAN_SHULKER_BOX":
+				shulkers.remove(Material.CYAN_SHULKER_BOX);
+			case "GRAY_SHULKER_BOX":
+				shulkers.remove(Material.GRAY_SHULKER_BOX);
+			case "GREEN_SHULKER_BOX":
+				shulkers.remove(Material.GREEN_SHULKER_BOX);
+			case "LIGHT_BLUE_SHULKER_BOX":
+				shulkers.remove(Material.LIGHT_BLUE_SHULKER_BOX);
+			case "LIGHT_GRAY_SHULKER_BOX":
+				shulkers.remove(Material.LIGHT_GRAY_SHULKER_BOX);
+			case "LIME_SHULKER_BOX":
+				shulkers.remove(Material.LIME_SHULKER_BOX);
+			case "MAGENTA_SHULKER_BOX":
+				shulkers.remove(Material.MAGENTA_SHULKER_BOX);
+			case "ORANGE_SHULKER_BOX":
+				shulkers.remove(Material.ORANGE_SHULKER_BOX);
+			case "PINK_SHULKER_BOX":
+				shulkers.remove(Material.PINK_SHULKER_BOX);
+			case "PURPLE_SHULKER_BOX":
+				shulkers.remove(Material.PURPLE_SHULKER_BOX);
+			case "RED_SHULKER_BOX":
+				shulkers.remove(Material.RED_SHULKER_BOX);
+			case "WHITE_SHULKER_BOX":
+				shulkers.remove(Material.WHITE_SHULKER_BOX);
+			case "YELLOW_SHULKER_BOX":
+				shulkers.remove(Material.YELLOW_SHULKER_BOX);
 			default:
 				// code block
 			}
@@ -220,7 +279,7 @@ public class LockpickListener implements Listener {
 		return random.nextInt(chance) + 1;
 	}
 
-	public static void openDoor(Block b, World w, Player p) {
+	public static void openDoor(final Block b, final World w, final Player p) {
 		if (!b.hasMetadata("door")) {
 			b.setMetadata("door", new FixedMetadataValue(Main.getInstance(), "opened"));
 			p.getInventory().clear(p.getInventory().getHeldItemSlot());
@@ -240,7 +299,7 @@ public class LockpickListener implements Listener {
 					lockpickMap.put(p.getName(), 0);
 				}
 			}.runTaskLater(Main.getInstance(), 40);
-			if (Main.getInstance().getConfig().getBoolean("ClosesAfterPicked")) { 
+			if (Main.getInstance().getConfig().getBoolean("ClosesAfterPicked")) {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
@@ -249,12 +308,13 @@ public class LockpickListener implements Listener {
 						b.setBlockData(d);
 						w.playSound(b.getLocation(), Sound.BLOCK_WOODEN_DOOR_CLOSE, 5F, 1F);
 					}
-				}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
+				}.runTaskLater(Main.getInstance(),
+						(long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses") * 20) + 40);
 			}
 		}
 	}
 
-	public static void openGate(Block b, World w, Player p) {
+	public static void openGate(final Block b, final World w, final Player p) {
 		if (!b.hasMetadata("gate")) {
 			p.getInventory().clear(p.getInventory().getHeldItemSlot());
 			new BukkitRunnable() {
@@ -282,13 +342,14 @@ public class LockpickListener implements Listener {
 						b.setBlockData(g);
 						w.playSound(b.getLocation(), Sound.BLOCK_WOODEN_DOOR_CLOSE, 5F, 1F);
 					}
-				}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
+				}.runTaskLater(Main.getInstance(),
+						(long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses") * 20) + 40);
 			}
 		}
 
 	}
 
-	public static void openTrapdoor(Block b, World w, Player p) {
+	public static void openTrapdoor(final Block b, final World w, final Player p) {
 		if (!b.hasMetadata("trapdoor")) {
 			b.setMetadata("trapdoor", new FixedMetadataValue(Main.getInstance(), "trapdoor"));
 			p.getInventory().clear(p.getInventory().getHeldItemSlot());
@@ -317,13 +378,14 @@ public class LockpickListener implements Listener {
 						b.setBlockData(t);
 						w.playSound(b.getLocation(), Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE, 5F, 1F);
 					}
-				}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
+				}.runTaskLater(Main.getInstance(),
+						(long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses") * 20) + 40);
 			}
 		}
 
 	}
 
-	public static void openIronDoor(Block b, World w, Player p) {
+	public static void openIronDoor(final Block b, final World w, final Player p) {
 		if (!b.hasMetadata("door")) {
 			b.setMetadata("door", new FixedMetadataValue(Main.getInstance(), "opened"));
 			p.getInventory().clear(p.getInventory().getHeldItemSlot());
@@ -352,14 +414,15 @@ public class LockpickListener implements Listener {
 						b.setBlockData(d);
 						w.playSound(b.getLocation(), Sound.BLOCK_IRON_DOOR_CLOSE, 5F, 1F);
 					}
-				}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
+				}.runTaskLater(Main.getInstance(),
+						(long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses") * 20) + 40);
 			}
 
 		}
 
 	}
 
-	public static void openIronTrapdoor(Block b, World w, Player p) {
+	public static void openIronTrapdoor(final Block b, final World w, final Player p) {
 		if (!b.hasMetadata("trapdoor")) {
 			b.setMetadata("trapdoor", new FixedMetadataValue(Main.getInstance(), "trapdoor"));
 			p.getInventory().clear(p.getInventory().getHeldItemSlot());
@@ -388,14 +451,15 @@ public class LockpickListener implements Listener {
 						b.setBlockData(t);
 						w.playSound(b.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_CLOSE, 5F, 1F);
 					}
-				}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
+				}.runTaskLater(Main.getInstance(),
+						(long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses") * 20) + 40);
 			}
 		}
 
 	}
 
-	public static void openChest(Block b, World w, Player p) {
-		b.setMetadata("trapdoor", new FixedMetadataValue(Main.getInstance(), "trapdoor"));
+	public static void openChest(final Block b, final World w, final Player p) {
+		b.setMetadata("chest", new FixedMetadataValue(Main.getInstance(), "chest"));
 		p.getInventory().clear(p.getInventory().getHeldItemSlot());
 		new BukkitRunnable() {
 			@Override
@@ -411,7 +475,24 @@ public class LockpickListener implements Listener {
 		}.runTaskLater(Main.getInstance(), 40);
 	}
 
-	public static void pickFailed(Player p) {
+	public static void openShulker(final Block b, final World w, final Player p) {
+		b.setMetadata("shulker", new FixedMetadataValue(Main.getInstance(), "shulker"));
+		p.getInventory().clear(p.getInventory().getHeldItemSlot());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8[&eSL&8] &a" + lang.getString("Lockpicks.Success")));
+				ShulkerBox shulkerbox = (ShulkerBox) b.getState();
+				p.openInventory(shulkerbox.getInventory());
+				w.playSound(b.getLocation(), Sound.BLOCK_SHULKER_BOX_OPEN, 5F, 1F);
+				p.getInventory().addItem(CraftingRecipes.getLockPick());
+				lockpickMap.put(p.getName(), 0);
+			}
+		}.runTaskLater(Main.getInstance(), 40);
+	}
+
+	public static void pickFailed(final Player p) {
 		p.getInventory().clear(p.getInventory().getHeldItemSlot());
 		new BukkitRunnable() {
 			@Override
@@ -429,7 +510,7 @@ public class LockpickListener implements Listener {
 			}
 		}.runTaskLater(Main.getInstance(), 40);
 	}
-	
+
 	public static boolean checkLockpickMap(Player p) {
 		if (!lockpickMap.containsKey(p.getName())) {
 			lockpickMap.put(p.getName(), 0);
@@ -449,8 +530,9 @@ public class LockpickListener implements Listener {
 		Action action = e.getAction();
 		if (action == Action.LEFT_CLICK_BLOCK && p.isSneaking()
 				&& p.getInventory().getItemInMainHand().getType() == Material.IRON_HOE
-				&& p.getInventory().getItemInMainHand().getItemMeta().hasLore() && p.getInventory().getItemInMainHand()
-						.getItemMeta().getDisplayName().equalsIgnoreCase(mess(Main.getInstance().getConfig().getString("Lockpicks.DisplayName")))) {
+				&& p.getInventory().getItemInMainHand().getItemMeta().hasLore()
+				&& p.getInventory().getItemInMainHand().getItemMeta().getDisplayName()
+						.equalsIgnoreCase(mess(Main.getInstance().getConfig().getString("Lockpicks.DisplayName")))) {
 			if (p.getGameMode() == GameMode.CREATIVE) {
 				e.setCancelled(true);
 			}
@@ -460,8 +542,25 @@ public class LockpickListener implements Listener {
 				p.sendMessage(mess("&8[&eSL&8] &c" + lang.getString("NoPermission")));
 				return;
 			}
-			if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
-				if ((block.getType() == Material.CHEST && !chestsAllowed) || (block.getType() == Material.TRAPPED_CHEST && !trappedChestsAllowed)) {
+			if (shulkers.contains(block.getType())) {
+				if (pm.getPlugin("Towny") != null) {
+					TownyCompatibility.TownyShulker(p, block, w);
+					return;
+				} else {
+					if (checkLockpickMap(p)) {
+						return;
+					}
+					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+					if (getRandom(Main.getInstance().getConfig().getInt("Chances.ShulkerBox")) == 1) {
+						openShulker(block, w, p);
+					} else {
+						pickFailed(p);
+					}
+					return;
+				}
+			} else if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
+				if ((block.getType() == Material.CHEST && !chestsAllowed)
+						|| (block.getType() == Material.TRAPPED_CHEST && !trappedChestsAllowed)) {
 					return;
 				}
 				if (pm.getPlugin("Towny") != null) {
@@ -558,7 +657,7 @@ public class LockpickListener implements Listener {
 				} else {
 					return;
 				}
-				
+
 				// null if gate sign is found
 				Block gateSign = CraftBookCompatibility.reverseGateCheck(block, p);
 				if (gateSign != null) {
