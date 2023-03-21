@@ -4,7 +4,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.palmergames.bukkit.towny.TownyAPI;
@@ -23,7 +22,7 @@ public class TownyCompatibility {
 	public static YamlConfiguration lang = Languages.getLang();
 	public static void TownyChest(Player p, Block b, World w) {
 		try {
-			TownBlock townBlock = WorldCoord.parseWorldCoord((Entity) p).getTownBlock();
+			TownBlock townBlock = WorldCoord.parseWorldCoord(b.getLocation()).getTownBlock();
 			Resident resident = TownyAPI.getInstance().getResident(p);
 			if (!resident.hasTown()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &c" + lang.getString("Towny.Fail1")));
@@ -55,7 +54,7 @@ public class TownyCompatibility {
 	
 	public static void TownyShulker(Player p, Block b, World w) {
 		try {
-			TownBlock townBlock = WorldCoord.parseWorldCoord((Entity) p).getTownBlock();
+			TownBlock townBlock = WorldCoord.parseWorldCoord(b.getLocation()).getTownBlock();
 			Resident resident = TownyAPI.getInstance().getResident(p);
 			if (!resident.hasTown()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &c" + lang.getString("Towny.Fail1")));

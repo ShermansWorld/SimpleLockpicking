@@ -29,8 +29,9 @@ public class CraftingRecipes implements Listener {
 		ItemStack lockpick = new ItemStack(Material.IRON_HOE, 1);
 	    ItemMeta meta = lockpick.getItemMeta();
 	    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',Main.getInstance().getConfig().getString("Lockpicks.DisplayName")));
-	    ArrayList<String> lore = new ArrayList<String>();
 	    meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
+	    meta.setCustomModelData(14100);
+	    ArrayList<String> lore = new ArrayList<String>();
 	    List<String> loreConfigList = Main.getInstance().getConfig().getStringList("Lockpicks.Lore");
 	    for (int i = 0; i < loreConfigList.size(); i++) {
 	    	lore.add(ChatColor.translateAlternateColorCodes('&',loreConfigList.get(i)));
