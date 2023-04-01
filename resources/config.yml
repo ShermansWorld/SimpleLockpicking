@@ -3,7 +3,7 @@
 # | A simple plugin for your lockpicking needs |
 # ==============================================
 
-config-version: 5
+config-version: 6
 
 lang: "enUs"
 # Possible languages: English (enUS)
@@ -24,6 +24,7 @@ Chances:
   Chests: 5
   ShulkerBox: 5
   Wood: 5
+  Barrel: 5
 
 # Remove the '#' from anything you want to prevent getting lockpicked  
 Disabled:
@@ -69,6 +70,7 @@ Disabled:
   #- RED_SHULKER_BOX
   #- WHITE_SHULKER_BOX
   #- YELLOW_SHULKER_BOX
+  #- BARREL
 
 # Additional Options
 ClosesAfterPicked: true

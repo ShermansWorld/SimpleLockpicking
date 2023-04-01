@@ -13,6 +13,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.ShulkerBox;
@@ -144,6 +145,12 @@ public class LockpickListener implements Listener {
 		shulkers.add(Material.WHITE_SHULKER_BOX);
 		shulkers.add(Material.YELLOW_SHULKER_BOX);
 	}
+	
+	private static final Set<Material> barrels = new HashSet<>();
+	
+	static {
+		barrels.add(Material.BARREL);
+	}
 
 	public static void removeDisabled() {
 		List<String> disabledConfigList = Main.getInstance().getConfig().getStringList("Disabled");
@@ -267,6 +274,8 @@ public class LockpickListener implements Listener {
 				shulkers.remove(Material.WHITE_SHULKER_BOX);
 			case "YELLOW_SHULKER_BOX":
 				shulkers.remove(Material.YELLOW_SHULKER_BOX);
+			case "BARREL":
+				barrels.remove(Material.BARREL);
 			default:
 				// code block
 			}
@@ -490,6 +499,23 @@ public class LockpickListener implements Listener {
 			}
 		}.runTaskLater(Main.getInstance(), 40);
 	}
+	
+	public static void openBarrel(final Block b, final World w, final Player p) {
+		b.setMetadata("barrel", new FixedMetadataValue(Main.getInstance(), "barrel"));
+		p.getInventory().clear(p.getInventory().getHeldItemSlot());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+						"&8[&eSL&8] &a" + lang.getString("Lockpicks.Success")));
+				Barrel barrel = (Barrel) b.getState();
+				p.openInventory(barrel.getInventory());
+				w.playSound(b.getLocation(), Sound.BLOCK_BARREL_OPEN, 5F, 1F);
+				p.getInventory().addItem(CraftingRecipes.getLockPick());
+				lockpickMap.put(p.getName(), 0);
+			}
+		}.runTaskLater(Main.getInstance(), 40);
+	}
 
 	public static void pickFailed(final Player p) {
 		p.getInventory().clear(p.getInventory().getHeldItemSlot());
@@ -552,6 +578,22 @@ public class LockpickListener implements Listener {
 					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
 					if (getRandom(Main.getInstance().getConfig().getInt("Chances.ShulkerBox")) == 1) {
 						openShulker(block, w, p);
+					} else {
+						pickFailed(p);
+					}
+					return;
+				}
+			} else if (barrels.contains(block.getType())) {
+				if (pm.getPlugin("Towny") != null) {
+					TownyCompatibility.TownyBarrel(p, block, w);
+					return;
+				} else {
+					if (checkLockpickMap(p)) {
+						return;
+					}
+					p.sendMessage(mess("&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+					if (getRandom(Main.getInstance().getConfig().getInt("Chances.Barrel")) == 1) {
+						openBarrel(block, w, p);
 					} else {
 						pickFailed(p);
 					}
