@@ -3,7 +3,7 @@
 # | A simple plugin for your lockpicking needs |
 # ==============================================
 
-config-version: 6
+config-version: 7
 
 lang: "enUs"
 # Possible languages: English (enUS)
@@ -29,21 +29,27 @@ Chances:
 # Remove the '#' from anything you want to prevent getting lockpicked  
 Disabled:
   #- ACACIA_DOOR
+  #- BAMBOO_DOOR
   #- BIRCH_DOOR
+  #- CHERRY_DOOR
   #- CRIMSON_DOOR
   #- DARK_OAK_DOOR
   #- JUNGLE_DOOR
   #- SPRUCE_DOOR
   #- WARPED_DOOR
   #- ACACIA_FENCE_GATE
+  #- BAMBOO_FENCE_GATE
   #- BIRCH_FENCE_GATE
+  #- CHERRY_FENCE_GATE
   #- CRIMSON_FENCE_GATE
   #- DARK_OAK_FENCE_GATE
   #- JUNGLE_FENCE_GATE
   #- SPRUCE_FENCE_GATE
   #- WARPED_FENCE_GATE
   #- ACACIA_TRAPDOOR
+  #- BAMBOO_TRAPDOOR
   #- BIRCH_TRAPDOOR
+  #- CHERRY_TRAPDOOR
   #- CRIMSON_TRAPDOOR
   #- DARK_OAK_TRAPDOOR
   #- JUNGLE_TRAPDOOR

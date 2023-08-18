@@ -30,21 +30,47 @@ public class CraftBookCompatibility {
 	private static final Set<Material> signs = new HashSet<>();
 	static {
 		signs.add(Material.ACACIA_SIGN);
+		signs.add(Material.BAMBOO_SIGN);
 		signs.add(Material.BIRCH_SIGN);
+		signs.add(Material.CHERRY_SIGN);
+		signs.add(Material.CRIMSON_SIGN);
 		signs.add(Material.DARK_OAK_SIGN);
 		signs.add(Material.JUNGLE_SIGN);
 		signs.add(Material.SPRUCE_SIGN);
 		signs.add(Material.OAK_SIGN);
-		signs.add(Material.CRIMSON_SIGN);
 		signs.add(Material.WARPED_SIGN);
 		signs.add(Material.ACACIA_WALL_SIGN);
+		signs.add(Material.BAMBOO_WALL_SIGN);
 		signs.add(Material.BIRCH_WALL_SIGN);
+		signs.add(Material.CHERRY_WALL_SIGN);
+		signs.add(Material.CRIMSON_WALL_SIGN);
 		signs.add(Material.DARK_OAK_WALL_SIGN);
 		signs.add(Material.JUNGLE_WALL_SIGN);
 		signs.add(Material.SPRUCE_WALL_SIGN);
 		signs.add(Material.OAK_WALL_SIGN);
-		signs.add(Material.CRIMSON_WALL_SIGN);
 		signs.add(Material.WARPED_WALL_SIGN);
+		signs.add(Material.ACACIA_HANGING_SIGN);
+		signs.add(Material.BAMBOO_HANGING_SIGN);
+		signs.add(Material.BIRCH_HANGING_SIGN);
+		signs.add(Material.CHERRY_HANGING_SIGN);
+		signs.add(Material.CRIMSON_HANGING_SIGN);
+		signs.add(Material.DARK_OAK_HANGING_SIGN);
+		signs.add(Material.JUNGLE_HANGING_SIGN);
+		signs.add(Material.SPRUCE_HANGING_SIGN);
+		signs.add(Material.OAK_HANGING_SIGN);
+		signs.add(Material.WARPED_HANGING_SIGN);
+		signs.add(Material.ACACIA_WALL_HANGING_SIGN);
+		signs.add(Material.BAMBOO_WALL_HANGING_SIGN);
+		signs.add(Material.BIRCH_WALL_HANGING_SIGN);
+		signs.add(Material.CHERRY_WALL_HANGING_SIGN);
+		signs.add(Material.CRIMSON_WALL_HANGING_SIGN);
+		signs.add(Material.DARK_OAK_WALL_HANGING_SIGN);
+		signs.add(Material.JUNGLE_WALL_HANGING_SIGN);
+		signs.add(Material.SPRUCE_WALL_HANGING_SIGN);
+		signs.add(Material.OAK_WALL_HANGING_SIGN);
+		signs.add(Material.WARPED_WALL_HANGING_SIGN);
+		
+		
 	}
 	private static final Set<Material> gateBlocks = new HashSet<>();
 	static {
@@ -59,6 +85,8 @@ public class CraftBookCompatibility {
 		gateBlocks.add(Material.CRIMSON_FENCE);
 		gateBlocks.add(Material.WARPED_FENCE);
 		gateBlocks.add(Material.NETHER_BRICK_FENCE);
+		gateBlocks.add(Material.BAMBOO_FENCE);
+		gateBlocks.add(Material.CHERRY_FENCE);
 		
 		// glass panes
 		gateBlocks.add(Material.BLACK_STAINED_GLASS_PANE);

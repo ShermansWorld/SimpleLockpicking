@@ -63,6 +63,8 @@ public class LockpickListener implements Listener {
 		normalDoors.add(Material.OAK_DOOR);
 		normalDoors.add(Material.CRIMSON_DOOR);
 		normalDoors.add(Material.WARPED_DOOR);
+		normalDoors.add(Material.BAMBOO_DOOR);
+		normalDoors.add(Material.CHERRY_DOOR);
 	}
 
 	private static final Set<Material> gates = new HashSet<>();
@@ -76,6 +78,8 @@ public class LockpickListener implements Listener {
 		gates.add(Material.OAK_FENCE_GATE);
 		gates.add(Material.CRIMSON_FENCE_GATE);
 		gates.add(Material.WARPED_FENCE_GATE);
+		gates.add(Material.BAMBOO_FENCE_GATE);
+		gates.add(Material.CHERRY_FENCE_GATE);
 	}
 
 	private static final Set<Material> trapdoors = new HashSet<>();
@@ -89,27 +93,8 @@ public class LockpickListener implements Listener {
 		trapdoors.add(Material.OAK_TRAPDOOR);
 		trapdoors.add(Material.CRIMSON_TRAPDOOR);
 		trapdoors.add(Material.WARPED_TRAPDOOR);
-	}
-
-	private static final Set<Material> sign = new HashSet<>();
-
-	static {
-		sign.add(Material.ACACIA_SIGN);
-		sign.add(Material.ACACIA_WALL_SIGN);
-		sign.add(Material.BIRCH_SIGN);
-		sign.add(Material.BIRCH_WALL_SIGN);
-		sign.add(Material.DARK_OAK_SIGN);
-		sign.add(Material.DARK_OAK_WALL_SIGN);
-		sign.add(Material.JUNGLE_SIGN);
-		sign.add(Material.JUNGLE_WALL_SIGN);
-		sign.add(Material.SPRUCE_SIGN);
-		sign.add(Material.SPRUCE_WALL_SIGN);
-		sign.add(Material.OAK_SIGN);
-		sign.add(Material.OAK_WALL_SIGN);
-		sign.add(Material.CRIMSON_WALL_SIGN);
-		sign.add(Material.CRIMSON_SIGN);
-		sign.add(Material.WARPED_WALL_SIGN);
-		sign.add(Material.WARPED_SIGN);
+		trapdoors.add(Material.BAMBOO_TRAPDOOR);
+		trapdoors.add(Material.CHERRY_TRAPDOOR);
 	}
 
 	private static final Set<Material> irontrapdoors = new HashSet<>();
@@ -159,7 +144,13 @@ public class LockpickListener implements Listener {
 			case "ACACIA_DOOR":
 				normalDoors.remove(Material.ACACIA_DOOR);
 				break;
+			case "BAMBOO_DOOR":
+				normalDoors.remove(Material.BAMBOO_DOOR);
+				break;
 			case "BIRCH_DOOR":
+				normalDoors.remove(Material.BIRCH_DOOR);
+				break;
+			case "CHERRY_DOOR":
 				normalDoors.remove(Material.BIRCH_DOOR);
 				break;
 			case "CRIMSON_DOOR":
@@ -183,8 +174,14 @@ public class LockpickListener implements Listener {
 			case "ACACIA_FENCE_GATE":
 				gates.remove(Material.ACACIA_FENCE_GATE);
 				break;
+			case "BAMBOO_FENCE_GATE":
+				gates.remove(Material.BAMBOO_FENCE_GATE);
+				break;
 			case "BIRCH_FENCE_GATE":
 				gates.remove(Material.BIRCH_FENCE_GATE);
+				break;
+			case "CHERRY_FENCE_GATE":
+				gates.remove(Material.CHERRY_FENCE_GATE);
 				break;
 			case "CRIMSON_FENCE_GATE":
 				gates.remove(Material.CRIMSON_FENCE_GATE);
@@ -207,8 +204,14 @@ public class LockpickListener implements Listener {
 			case "ACACIA_TRAPDOOR":
 				trapdoors.remove(Material.ACACIA_TRAPDOOR);
 				break;
+			case "BAMBOO_TRAPDOOR":
+				trapdoors.remove(Material.BAMBOO_TRAPDOOR);
+				break;
 			case "BIRCH_TRAPDOOR":
 				trapdoors.remove(Material.BIRCH_TRAPDOOR);
+				break;
+			case "CHERRY_TRAPDOOR":
+				trapdoors.remove(Material.CHERRY_TRAPDOOR);
 				break;
 			case "CRIMSON_TRAPDOOR":
 				trapdoors.remove(Material.CRIMSON_TRAPDOOR);
