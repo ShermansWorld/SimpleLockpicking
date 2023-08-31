@@ -56,7 +56,7 @@ public class CraftingRecipes implements Listener {
 	@EventHandler
 	public void CraftListener(CraftItemEvent e) {
 
-		if (e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("Lockpicks.DisplayName")))) {
+		if (e.getCurrentItem().equals(getLockPick())) {
 			if (e.getWhoClicked() instanceof Player) {
 				Player p = (Player) e.getWhoClicked();
 				if (!p.hasPermission("simplelockpicking.craft")) {
