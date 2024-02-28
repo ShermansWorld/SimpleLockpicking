@@ -1,0 +1,19 @@
+name: SimpleLockpicking
+main: me.ShermansWorld.SimpleLockpicking.Main
+version: 3.4.2
+api-version: 1.19
+author: ShermansWorld
+description: SimpleLockpicking
+softdepend: [Towny, CraftBook]
+commands:
+  simplelockpicking:
+    description: Admin utility commands
+permissions:
+  simplelockpicking.give:
+    defaults: op
+  simplelockpicking.craft:
+    defaults: op
+  simplelockpicking.use:
+    defaults: op
+  simplelockpicking.reload:
+    defaults: op

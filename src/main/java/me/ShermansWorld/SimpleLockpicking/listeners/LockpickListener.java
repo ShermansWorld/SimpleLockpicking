@@ -1,17 +1,17 @@
 package me.ShermansWorld.SimpleLockpicking.listeners;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
@@ -48,94 +48,17 @@ public class LockpickListener implements Listener {
 
 	private static boolean chestsAllowed = true;
 	private static boolean trappedChestsAllowed = true;
+	private static boolean ironDoorsAllowed = true;
+	private static boolean ironTrapdoorsAllowed = true;
+	private static boolean barrelsAllowed = true;
 	private static Random random = new Random();
 
 	public static Map<String, Integer> lockpickMap = new HashMap<>();
 
-	private static final Set<Material> normalDoors = new HashSet<>();
-
-	static {
-		normalDoors.add(Material.ACACIA_DOOR);
-		normalDoors.add(Material.BIRCH_DOOR);
-		normalDoors.add(Material.DARK_OAK_DOOR);
-		normalDoors.add(Material.JUNGLE_DOOR);
-		normalDoors.add(Material.SPRUCE_DOOR);
-		normalDoors.add(Material.OAK_DOOR);
-		normalDoors.add(Material.CRIMSON_DOOR);
-		normalDoors.add(Material.WARPED_DOOR);
-		normalDoors.add(Material.BAMBOO_DOOR);
-		normalDoors.add(Material.CHERRY_DOOR);
-	}
-
-	private static final Set<Material> gates = new HashSet<>();
-
-	static {
-		gates.add(Material.ACACIA_FENCE_GATE);
-		gates.add(Material.BIRCH_FENCE_GATE);
-		gates.add(Material.DARK_OAK_FENCE_GATE);
-		gates.add(Material.JUNGLE_FENCE_GATE);
-		gates.add(Material.SPRUCE_FENCE_GATE);
-		gates.add(Material.OAK_FENCE_GATE);
-		gates.add(Material.CRIMSON_FENCE_GATE);
-		gates.add(Material.WARPED_FENCE_GATE);
-		gates.add(Material.BAMBOO_FENCE_GATE);
-		gates.add(Material.CHERRY_FENCE_GATE);
-	}
-
-	private static final Set<Material> trapdoors = new HashSet<>();
-
-	static {
-		trapdoors.add(Material.ACACIA_TRAPDOOR);
-		trapdoors.add(Material.BIRCH_TRAPDOOR);
-		trapdoors.add(Material.DARK_OAK_TRAPDOOR);
-		trapdoors.add(Material.JUNGLE_TRAPDOOR);
-		trapdoors.add(Material.SPRUCE_TRAPDOOR);
-		trapdoors.add(Material.OAK_TRAPDOOR);
-		trapdoors.add(Material.CRIMSON_TRAPDOOR);
-		trapdoors.add(Material.WARPED_TRAPDOOR);
-		trapdoors.add(Material.BAMBOO_TRAPDOOR);
-		trapdoors.add(Material.CHERRY_TRAPDOOR);
-	}
-
-	private static final Set<Material> irontrapdoors = new HashSet<>();
-
-	static {
-		irontrapdoors.add(Material.IRON_TRAPDOOR);
-	}
-
-	private static final Set<Material> iron_door = new HashSet<>();
-
-	static {
-		iron_door.add(Material.IRON_DOOR);
-	}
-
-	private static final Set<Material> shulkers = new HashSet<>();
-
-	static {
-		shulkers.add(Material.SHULKER_BOX);
-		shulkers.add(Material.BLACK_SHULKER_BOX);
-		shulkers.add(Material.BLUE_SHULKER_BOX);
-		shulkers.add(Material.BROWN_SHULKER_BOX);
-		shulkers.add(Material.CYAN_SHULKER_BOX);
-		shulkers.add(Material.GRAY_SHULKER_BOX);
-		shulkers.add(Material.GREEN_SHULKER_BOX);
-		shulkers.add(Material.LIGHT_BLUE_SHULKER_BOX);
-		shulkers.add(Material.LIGHT_GRAY_SHULKER_BOX);
-		shulkers.add(Material.LIME_SHULKER_BOX);
-		shulkers.add(Material.MAGENTA_SHULKER_BOX);
-		shulkers.add(Material.ORANGE_SHULKER_BOX);
-		shulkers.add(Material.PINK_SHULKER_BOX);
-		shulkers.add(Material.PURPLE_SHULKER_BOX);
-		shulkers.add(Material.RED_SHULKER_BOX);
-		shulkers.add(Material.WHITE_SHULKER_BOX);
-		shulkers.add(Material.YELLOW_SHULKER_BOX);
-	}
-	
-	private static final Set<Material> barrels = new HashSet<>();
-	
-	static {
-		barrels.add(Material.BARREL);
-	}
+	private static final List<Material> normalDoors = new ArrayList<>(Tag.WOODEN_DOORS.getValues());
+	private static final List<Material> gates = new ArrayList<>(Tag.FENCE_GATES.getValues());
+	private static final List<Material> trapdoors = new ArrayList<>(Tag.WOODEN_TRAPDOORS.getValues());
+	private static final List<Material> shulkers = new ArrayList<>(Tag.SHULKER_BOXES.getValues());
 
 	public static void removeDisabled() {
 		List<String> disabledConfigList = Main.getInstance().getConfig().getStringList("Disabled");
@@ -232,10 +155,10 @@ public class LockpickListener implements Listener {
 				trapdoors.remove(Material.WARPED_TRAPDOOR);
 				break;
 			case "IRON_DOOR":
-				iron_door.remove(Material.WARPED_TRAPDOOR);
+				ironDoorsAllowed = false;
 				break;
 			case "IRON_TRAPDOOR":
-				irontrapdoors.remove(Material.WARPED_TRAPDOOR);
+				ironTrapdoorsAllowed = false;
 				break;
 			case "TRAPPED_CHEST":
 				trappedChestsAllowed = false;
@@ -278,7 +201,7 @@ public class LockpickListener implements Listener {
 			case "YELLOW_SHULKER_BOX":
 				shulkers.remove(Material.YELLOW_SHULKER_BOX);
 			case "BARREL":
-				barrels.remove(Material.BARREL);
+				barrelsAllowed = false;
 			default:
 				// code block
 			}
@@ -586,7 +509,7 @@ public class LockpickListener implements Listener {
 					}
 					return;
 				}
-			} else if (barrels.contains(block.getType())) {
+			} else if (block.getType() == Material.BARREL && barrelsAllowed) {
 				if (pm.getPlugin("Towny") != null) {
 					TownyCompatibility.TownyBarrel(p, block, w);
 					return;
@@ -648,7 +571,7 @@ public class LockpickListener implements Listener {
 						pickFailed(p);
 					}
 				}
-			} else if (iron_door.contains(block.getType())) {
+			} else if (block.getType() == Material.IRON_DOOR && ironDoorsAllowed) {
 				Door d = (Door) block.getBlockData();
 				if (!d.isOpen()) {
 					if (checkLockpickMap(p)) {
@@ -674,7 +597,7 @@ public class LockpickListener implements Listener {
 						pickFailed(p);
 					}
 				}
-			} else if (irontrapdoors.contains(block.getType())) {
+			} else if (block.getType() == Material.IRON_TRAPDOOR && ironTrapdoorsAllowed) {
 				TrapDoor t = (TrapDoor) block.getBlockData();
 				if (!t.isOpen()) {
 					if (checkLockpickMap(p)) {
@@ -688,10 +611,6 @@ public class LockpickListener implements Listener {
 					}
 				}
 			} else if (Main.usingCraftBook) {
-				// init craftbook plugin and variables
-				if (!CraftBookCompatibility.init) {
-					CraftBookCompatibility.initCraftBook();
-				}
 				// if its a gate block
 				if (CraftBookCompatibility.isGateBlock(block)) {
 					// if gate lockpicking is disabled

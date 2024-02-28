@@ -1,0 +1,102 @@
+# ==============================================
+# | SimpleLockpicking by ShermansWorld         |
+# | A simple plugin for your lockpicking needs |
+# ==============================================
+
+config-version: 7
+
+lang: "enUs"
+# Possible languages: English (enUS)
+# Interested in translating SimpleLockpicking?
+# Let me know at https://www.spigotmc.org/threads/simplelockpicking.482879/ and provide the translation file
+
+# Edit the meta for lockpicks
+Lockpicks:
+  DisplayName: "&e&lLockpick"
+  Lore:
+    - "&6A special tool to open locks. When used it"
+    - "&6has a chance of opening a locked door or chest."
+
+# The chance is 1 in [number]. For example if you wanted a 1 in 8 chance put 8.
+# Iron is for iron doors and trapdoors, chests are for chests and trapped chests, wood is for everything else.
+Chances:
+  Iron: 10
+  Chests: 5
+  ShulkerBox: 5
+  Wood: 5
+  Barrel: 5
+
+# Remove the '#' from anything you want to prevent getting lockpicked  
+Disabled:
+  #- ACACIA_DOOR
+  #- BAMBOO_DOOR
+  #- BIRCH_DOOR
+  #- CHERRY_DOOR
+  #- CRIMSON_DOOR
+  #- DARK_OAK_DOOR
+  #- JUNGLE_DOOR
+  #- SPRUCE_DOOR
+  #- WARPED_DOOR
+  #- ACACIA_FENCE_GATE
+  #- BAMBOO_FENCE_GATE
+  #- BIRCH_FENCE_GATE
+  #- CHERRY_FENCE_GATE
+  #- CRIMSON_FENCE_GATE
+  #- DARK_OAK_FENCE_GATE
+  #- JUNGLE_FENCE_GATE
+  #- SPRUCE_FENCE_GATE
+  #- WARPED_FENCE_GATE
+  #- ACACIA_TRAPDOOR
+  #- BAMBOO_TRAPDOOR
+  #- BIRCH_TRAPDOOR
+  #- CHERRY_TRAPDOOR
+  #- CRIMSON_TRAPDOOR
+  #- DARK_OAK_TRAPDOOR
+  #- JUNGLE_TRAPDOOR
+  #- SPRUCE_TRAPDOOR
+  #- WARPED_TRAPDOOR
+  #- IRON_DOOR
+  #- IRON_TRAPDOOR
+  #- CHEST
+  #- TRAPPED_CHEST
+  #- SHULKER_BOX
+  #- BLACK_SHULKER_BOX
+  #- BLUE_SHULKER_BOX
+  #- BROWN_SHULKER_BOX
+  #- CYAN_SHULKER_BOX
+  #- GRAY_SHULKER_BOX
+  #- GREEN_SHULKER_BOX
+  #- LIGHT_BLUE_SHULKER_BOX
+  #- LIGHT_GRAY_SHULKER_BOX
+  #- LIME_SHULKER_BOX
+  #- MAGENTA_SHULKER_BOX
+  #- ORANGE_SHULKER_BOX
+  #- PINK_SHULKER_BOX
+  #- PURPLE_SHULKER_BOX
+  #- RED_SHULKER_BOX
+  #- WHITE_SHULKER_BOX
+  #- YELLOW_SHULKER_BOX
+  #- BARREL
+
+# Additional Options
+ClosesAfterPicked: true
+# If the above option is true this is how long a picked entrance will stay open
+SecondsUntilCloses: 5
+
+# ================================
+# |     CRAFTBOOK OPTIONS        |
+# ================================
+# SimpleLockping now has CraftBook support!
+# These settings only apply if you are using the CraftBook plugin
+
+Gate:
+   Enabled: true
+   Chance: 5
+Door:
+   Enabled: true
+   Chance: 5
+Bridge:
+   Enabled: true
+   Chance: 5
+      
+

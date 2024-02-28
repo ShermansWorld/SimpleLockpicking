@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.ShermansWorld.SimpleLockpicking.commands.SimpleLockpickingCommands;
 import me.ShermansWorld.SimpleLockpicking.commands.SimpleLockpickingTabCompletion;
+import me.ShermansWorld.SimpleLockpicking.hooks.CraftBookCompatibility;
 import me.ShermansWorld.SimpleLockpicking.lang.Languages;
 import me.ShermansWorld.SimpleLockpicking.listeners.LockpickListener;
 
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin {
 		}
 		if (Bukkit.getServer().getPluginManager().getPlugin("CraftBook") != null) {
 			usingCraftBook = true;
+			CraftBookCompatibility.initCraftBook();
 			Bukkit.getLogger().info("[SimpleLockpicking] CraftBook detected! Enabling support...");
 		}
 	}

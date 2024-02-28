@@ -15,9 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-//import org.bukkit.inventory.FurnaceRecipe;
-//import org.bukkit.inventory.ItemStack;
-
 
 public class CraftingRecipes implements Listener {
 	
@@ -51,7 +48,6 @@ public class CraftingRecipes implements Listener {
 	    lockpickRecipe.setIngredient('%', Material.STICK);
 	    Main.getInstance().getServer().addRecipe(lockpickRecipe);
 	}
-    
 	
 	@EventHandler
 	public void CraftListener(CraftItemEvent e) {

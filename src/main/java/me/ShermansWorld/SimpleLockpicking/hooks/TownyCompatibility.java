@@ -19,11 +19,23 @@ import me.ShermansWorld.SimpleLockpicking.listeners.LockpickListener;
 
 
 public class TownyCompatibility {
+	
 	public static YamlConfiguration lang = Languages.getLang();
+	
 	public static void TownyChest(Player p, Block b, World w) {
 		try {
 			TownBlock townBlock = WorldCoord.parseWorldCoord(b.getLocation()).getTownBlock();
 			Resident resident = TownyAPI.getInstance().getResident(p);
+			if (townBlock.getTown().isRuined()) {
+				LockpickListener.lockpickMap.put(p.getName(), 1);
+	        	p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (LockpickListener.getRandom(Main.getInstance().getConfig().getInt("Chances.Chests")) == 1) {
+					LockpickListener.openChest(b, w, p);
+				} else {
+					LockpickListener.pickFailed(p);
+				}
+				return;
+			}
 			if (!resident.hasTown()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &c" + lang.getString("Towny.Fail1")));
 				return;
@@ -56,6 +68,16 @@ public class TownyCompatibility {
 		try {
 			TownBlock townBlock = WorldCoord.parseWorldCoord(b.getLocation()).getTownBlock();
 			Resident resident = TownyAPI.getInstance().getResident(p);
+			if (townBlock.getTown().isRuined()) {
+				LockpickListener.lockpickMap.put(p.getName(), 1);
+	        	p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (LockpickListener.getRandom(Main.getInstance().getConfig().getInt("Chances.Chests")) == 1) {
+					LockpickListener.openChest(b, w, p);
+				} else {
+					LockpickListener.pickFailed(p);
+				}
+				return;
+			}
 			if (!resident.hasTown()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &c" + lang.getString("Towny.Fail1")));
 				return;
@@ -88,6 +110,16 @@ public class TownyCompatibility {
 		try {
 			TownBlock townBlock = WorldCoord.parseWorldCoord(b.getLocation()).getTownBlock();
 			Resident resident = TownyAPI.getInstance().getResident(p);
+			if (townBlock.getTown().isRuined()) {
+				LockpickListener.lockpickMap.put(p.getName(), 1);
+	        	p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &7" + lang.getString("Lockpicks.Use")));
+				if (LockpickListener.getRandom(Main.getInstance().getConfig().getInt("Chances.Chests")) == 1) {
+					LockpickListener.openChest(b, w, p);
+				} else {
+					LockpickListener.pickFailed(p);
+				}
+				return;
+			}
 			if (!resident.hasTown()) {
 				p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&8[&eSL&8] &c" + lang.getString("Towny.Fail1")));
 				return;

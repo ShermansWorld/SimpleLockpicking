@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.ShermansWorld</groupId>
 	<artifactId>SimpleLockpicking</artifactId>
-	<version>3.4.1</version>
+	<version>3.4.2</version>
 	<packaging>jar</packaging>
 	<name>SimpleLockpicking</name>
 	<url>http://maven.apache.org</url>
@@ -41,10 +41,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.enginehub</groupId>
-			<artifactId>craftbook-bukkit</artifactId>
-			<version>5.0.0-20230709.075906-27</version>
-			<scope>provided</scope>
+			<groupId>com.sk89q.craftbook</groupId>
+			<artifactId>CraftBook</artifactId>
+			<version>LATEST</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/craftbook-3.10.9.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>

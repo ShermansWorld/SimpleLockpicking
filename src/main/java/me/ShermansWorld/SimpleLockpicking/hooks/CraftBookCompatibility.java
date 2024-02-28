@@ -1,10 +1,11 @@
 package me.ShermansWorld.SimpleLockpicking.hooks;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.craftbook.CraftBookMechanic;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
+import com.sk89q.craftbook.mechanics.area.simple.Door;
 import com.sk89q.craftbook.mechanics.area.simple.Gate;
 
 import me.ShermansWorld.SimpleLockpicking.CraftingRecipes;
@@ -22,108 +24,50 @@ import me.ShermansWorld.SimpleLockpicking.lang.Languages;
 import me.ShermansWorld.SimpleLockpicking.listeners.LockpickListener;
 
 public class CraftBookCompatibility {
-
-	public static boolean init = false;
+	
 	public static YamlConfiguration lang = Languages.getLang();
 	private static Gate gate;
+	private static Door door;
 	private static CraftBookPlugin craftBook;
-	private static final Set<Material> signs = new HashSet<>();
-	static {
-		signs.add(Material.ACACIA_SIGN);
-		signs.add(Material.BAMBOO_SIGN);
-		signs.add(Material.BIRCH_SIGN);
-		signs.add(Material.CHERRY_SIGN);
-		signs.add(Material.CRIMSON_SIGN);
-		signs.add(Material.DARK_OAK_SIGN);
-		signs.add(Material.JUNGLE_SIGN);
-		signs.add(Material.SPRUCE_SIGN);
-		signs.add(Material.OAK_SIGN);
-		signs.add(Material.WARPED_SIGN);
-		signs.add(Material.ACACIA_WALL_SIGN);
-		signs.add(Material.BAMBOO_WALL_SIGN);
-		signs.add(Material.BIRCH_WALL_SIGN);
-		signs.add(Material.CHERRY_WALL_SIGN);
-		signs.add(Material.CRIMSON_WALL_SIGN);
-		signs.add(Material.DARK_OAK_WALL_SIGN);
-		signs.add(Material.JUNGLE_WALL_SIGN);
-		signs.add(Material.SPRUCE_WALL_SIGN);
-		signs.add(Material.OAK_WALL_SIGN);
-		signs.add(Material.WARPED_WALL_SIGN);
-		signs.add(Material.ACACIA_HANGING_SIGN);
-		signs.add(Material.BAMBOO_HANGING_SIGN);
-		signs.add(Material.BIRCH_HANGING_SIGN);
-		signs.add(Material.CHERRY_HANGING_SIGN);
-		signs.add(Material.CRIMSON_HANGING_SIGN);
-		signs.add(Material.DARK_OAK_HANGING_SIGN);
-		signs.add(Material.JUNGLE_HANGING_SIGN);
-		signs.add(Material.SPRUCE_HANGING_SIGN);
-		signs.add(Material.OAK_HANGING_SIGN);
-		signs.add(Material.WARPED_HANGING_SIGN);
-		signs.add(Material.ACACIA_WALL_HANGING_SIGN);
-		signs.add(Material.BAMBOO_WALL_HANGING_SIGN);
-		signs.add(Material.BIRCH_WALL_HANGING_SIGN);
-		signs.add(Material.CHERRY_WALL_HANGING_SIGN);
-		signs.add(Material.CRIMSON_WALL_HANGING_SIGN);
-		signs.add(Material.DARK_OAK_WALL_HANGING_SIGN);
-		signs.add(Material.JUNGLE_WALL_HANGING_SIGN);
-		signs.add(Material.SPRUCE_WALL_HANGING_SIGN);
-		signs.add(Material.OAK_WALL_HANGING_SIGN);
-		signs.add(Material.WARPED_WALL_HANGING_SIGN);
-		
-		
-	}
-	private static final Set<Material> gateBlocks = new HashSet<>();
-	static {
-		
-		// fences
-		gateBlocks.add(Material.ACACIA_FENCE);
-		gateBlocks.add(Material.BIRCH_FENCE);
-		gateBlocks.add(Material.JUNGLE_FENCE);
-		gateBlocks.add(Material.OAK_FENCE);
-		gateBlocks.add(Material.SPRUCE_FENCE);
-		gateBlocks.add(Material.DARK_OAK_FENCE);
-		gateBlocks.add(Material.CRIMSON_FENCE);
-		gateBlocks.add(Material.WARPED_FENCE);
-		gateBlocks.add(Material.NETHER_BRICK_FENCE);
-		gateBlocks.add(Material.BAMBOO_FENCE);
-		gateBlocks.add(Material.CHERRY_FENCE);
-		
-		// glass panes
-		gateBlocks.add(Material.BLACK_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.BLUE_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.BROWN_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.CYAN_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.GLASS_PANE);
-		gateBlocks.add(Material.GRAY_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.GREEN_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.LIME_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.MAGENTA_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.ORANGE_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.PINK_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.PURPLE_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.RED_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.WHITE_STAINED_GLASS_PANE);
-		gateBlocks.add(Material.YELLOW_STAINED_GLASS_PANE);
-		
-		//other
-		gateBlocks.add(Material.IRON_BARS);
-	}
+	private static final List<Material> signs = new ArrayList<>(Tag.SIGNS.getValues());
+	private static List<Material> gateBlocks = new ArrayList<>();
+	private static List<Material> doorBlocks = new ArrayList<>();
 
 	public static void initCraftBook() {
 		craftBook = JavaPlugin.getPlugin(CraftBookPlugin.class);
 		for (CraftBookMechanic mechanic : craftBook.getMechanics()) {
 			if (mechanic.toString().contains("Gate")) {
 				gate = (Gate) mechanic;
+				for (String blockStr : gate.getDefaultBlocks()) {
+					//remove "minecraft:" in string
+					blockStr = blockStr.substring(10);
+					blockStr = blockStr.toUpperCase();
+					gateBlocks.add(Material.getMaterial(blockStr));
+				}
+			} else if (mechanic.toString().contains("Door")) {
+				door = (Door) mechanic;
+				for (String blockStr : door.getDefaultBlocks()) {
+					//remove "minecraft:" in string
+					blockStr = blockStr.substring(10);
+					blockStr = blockStr.toUpperCase();
+					doorBlocks.add(Material.getMaterial(blockStr));
+				}
 			}
 		}
-		init = true;
 	}
 	
 	public static boolean isGateBlock(Block block) {
 		// check initial block for a gate block (fence, iron bars, etc)
 		if (gateBlocks.contains(block.getType())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean isDoorBlock(Block block) {
+		// check initial block for a door block
+		if (doorBlocks.contains(block.getType())) {
 			return true;
 		} else {
 			return false;
@@ -178,6 +122,10 @@ public class CraftBookCompatibility {
 			}.runTaskLater(Main.getInstance(), (long) (Main.getInstance().getConfig().getInt("SecondsUntilCloses")*20) + 40);
 		}
 	}
+	
+	public static void toggleDoor(final Player player, final Block doorSign) {
+		// TODO:
+	}
 
 	public static boolean isGateSign(Block block) {
 		if (block.getType().isAir()) {
@@ -187,6 +135,20 @@ public class CraftBookCompatibility {
 		if (signs.contains(block.getType())) {
 			Sign sign = (Sign) block.getState();
 			if (sign.getLine(1).contentEquals("[Gate]")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isDoorSign(Block block) {
+		if (block.getType().isAir()) {
+			return false;
+		}
+		//Bukkit.broadcastMessage(block.getType().toString());
+		if (signs.contains(block.getType())) {
+			Sign sign = (Sign) block.getState();
+			if (sign.getLine(1).contentEquals("[Door]")) {
 				return true;
 			}
 		}
